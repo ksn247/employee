@@ -1,0 +1,20 @@
+---
+- name: testing ansible
+  hosts: hadoopc
+  become: yes
+  become_user: hadoop
+
+  tasks:
+
+    - name: rm jar if already exist
+      command: rm -rf /home/hadoop/employee-1.0-SNAPSHOT.jar
+      become: true
+
+    - name: copy jar onto the hadoop cluster
+      copy:
+        src: /var/lib/jenkins/workspace/hadoop_employee/target/employee-1.0-SNAPSHOT.jar to com.state.employee/employee/1.0-SNAPSHOT/employee-1.0-SNAPSHOT.jar
+        dest: /home/hadoop
+      become: true
+      register: cpy_cmd_output
+
+    - debug: var=cpy_cmd_output
